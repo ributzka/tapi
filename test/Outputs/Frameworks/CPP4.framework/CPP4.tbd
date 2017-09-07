@@ -1,0 +1,10 @@
+--- !tapi-tbd-v2
+archs:           [ x86_64 ]
+platform:        macosx
+flags:           [ not_app_extension_safe ]
+install-name:    /System/Library/Frameworks/CPP4.framework/Versions/A/CPP4
+objc-constraint: none
+exports:         
+  - archs:           [ x86_64 ]
+    symbols:         [ __ZN5test23FooIiE8instanceEv ]
+...

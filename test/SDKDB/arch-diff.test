@@ -1,0 +1,18 @@
+; RUN: rm -rf %t && mkdir -p %t
+; RUN: %tapi sdkdb -print -output-dir=%t -isysroot %sysroot %inputs/ArchDiff 2>&1 | FileCheck %s
+; RUN: %tapi sdkdb -arch x86_64 -arch i386 -print -output-dir=%t -isysroot %sysroot %inputs/ArchDiff 2>&1 | FileCheck %s
+; RUN: %tapi sdkdb -arch x86_64 -print -output-dir=%t -isysroot %sysroot %inputs/ArchDiff 2>&1 | FileCheck --check-prefix=X86 %s
+; RUN: %tapi sdkdb -arch i386 -print -output-dir=%t -isysroot %sysroot %inputs/ArchDiff 2>&1 | FileCheck --check-prefix=I386 %s
+; RUN: %tapi sdkdb -arch arm64 -print -output-dir=%t -isysroot %sysroot %inputs/ArchDiff 2>&1 | FileCheck --check-prefix=ARM64 %s
+
+; CHECK: _general_func
+; CHECK: _x86_64_func
+
+; X86: _x86_64_func
+; X86-NOT: _general_func
+
+; I386: _general_func
+; I386-NOT: _x86_64_func
+
+; ARM64: warning: skipping file
+; ARM64: Requested architectures don't exist

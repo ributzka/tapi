@@ -1,0 +1,151 @@
+; RUN: %tapi sdkdb -print -output-dir=%T -isysroot %sysroot %inputs/Simple 2>&1 | FileCheck %s
+
+; CHECK: 			Install Name: Simple
+; CHECK-NEXT: Symbols:
+; CHECK-NEXT: 	_OBJC_CLASS_$_A (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	_OBJC_CLASS_$_Base (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	_OBJC_CLASS_$_Basic1 (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	_OBJC_CLASS_$_Basic2 (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	_OBJC_CLASS_$_Basic3 (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	_OBJC_CLASS_$_Basic4 (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	_OBJC_CLASS_$_Basic5 (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	_OBJC_CLASS_$_Basic6 (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	_OBJC_CLASS_$_Basic8 (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	_OBJC_CLASS_$_Basic9 (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	_OBJC_CLASS_$_ExternalManagedObject (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	_OBJC_CLASS_$_Simple (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	_OBJC_CLASS_$_SimpleInternalAPI (Private)
+; CHECK-NEXT: 	_OBJC_CLASS_$_SimpleInternalSPI (Private)
+; CHECK-NEXT: 	_OBJC_CLASS_$_SubClass (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	_OBJC_METACLASS_$_A (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	_OBJC_METACLASS_$_Base (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	_OBJC_METACLASS_$_Basic1 (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	_OBJC_METACLASS_$_Basic2 (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	_OBJC_METACLASS_$_Basic3 (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	_OBJC_METACLASS_$_Basic4 (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	_OBJC_METACLASS_$_Basic5 (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	_OBJC_METACLASS_$_Basic6 (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	_OBJC_METACLASS_$_Basic8 (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	_OBJC_METACLASS_$_Basic9 (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	_OBJC_METACLASS_$_ExternalManagedObject (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	_OBJC_METACLASS_$_Simple (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	_OBJC_METACLASS_$_SimpleInternalAPI (Private)
+; CHECK-NEXT: 	_OBJC_METACLASS_$_SimpleInternalSPI (Private)
+; CHECK-NEXT: 	_OBJC_METACLASS_$_SubClass (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	_extraGlobalAPI1 (Private)
+; CHECK-NEXT: 	_extraGlobalAPI2 (Private)
+; CHECK-NEXT: 	_privateGlobalVariable (Private)
+; CHECK-NEXT: 	_publicGlobalVariable (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	_weakPrivateGlobalVariable (Private)
+; CHECK-NEXT: 	_weakPublicGlobalVariable (Public) i:0 o:0 u:0
+; CHECK-NEXT: ObjC Classes:
+; CHECK-NEXT: --> A (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	SuperClass: NSObject
+; CHECK-NEXT: 	InstanceMethods:
+; CHECK-NEXT: 		aMethod (Public) i:10.11 o:0 u:0
+; CHECK-NEXT: 	ClassMethods:
+; CHECK-NEXT: --> Base (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	SuperClass: NSObject
+; CHECK-NEXT: 	InstanceMethods:
+; CHECK-NEXT: 	ClassMethods:
+; CHECK-NEXT: --> Basic1 (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	SuperClass:
+; CHECK-NEXT: 	InstanceMethods:
+; CHECK-NEXT: 	ClassMethods:
+; CHECK-NEXT: --> Basic2 (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	SuperClass: NSObject
+; CHECK-NEXT: 	InstanceMethods:
+; CHECK-NEXT: 	ClassMethods:
+; CHECK-NEXT: --> Basic3 (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	SuperClass: NSObject
+; CHECK-NEXT: 	InstanceMethods:
+; CHECK-NEXT: 		isProperty3 (Public) i:0 o:0 u:0
+; CHECK-NEXT: 		property1 (Public) i:0 o:0 u:0
+; CHECK-NEXT: 		property2 (Public) i:0 o:0 u:0
+; CHECK-NEXT: 		setProperty1: (Public) i:0 o:0 u:0
+; CHECK-NEXT: 		setProperty3: (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	ClassMethods:
+; CHECK-NEXT: --> Basic4 (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	SuperClass: NSObject
+; CHECK-NEXT: 	InstanceMethods:
+; CHECK-NEXT: 	ClassMethods:
+; CHECK-NEXT: --> Basic5 (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	SuperClass: NSObject
+; CHECK-NEXT: 	InstanceMethods:
+; CHECK-NEXT: 		anInstanceMethod (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	ClassMethods:
+; CHECK-NEXT: 		aClassMethod (Public) i:0 o:0 u:0
+; CHECK-NEXT: --> Basic6 (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	SuperClass: NSObject
+; CHECK-NEXT: 	InstanceMethods:
+; CHECK-NEXT: 		anInstanceMethodFromACategory (Public) i:0 o:0 u:0
+; CHECK-NEXT: 		anInstanceMethodFromAnExtension (Public) i:0 o:0 u:0
+; CHECK-NEXT: 		property1 (Public) i:0 o:0 u:0
+; CHECK-NEXT: 		property2 (Public) i:0 o:0 u:0
+; CHECK-NEXT: 		setProperty1: (Public) i:0 o:0 u:0
+; CHECK-NEXT: 		setProperty2: (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	ClassMethods:
+; CHECK-NEXT: --> Basic7 (Private)
+; CHECK-NEXT: 	SuperClass: NSObject
+; CHECK-NEXT: 	InstanceMethods:
+; CHECK-NEXT: 		anInstanceMethodFromAnHiddenExtension (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	ClassMethods:
+; CHECK-NEXT: --> Basic8 (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	SuperClass: NSObject
+; CHECK-NEXT: 	InstanceMethods:
+; CHECK-NEXT: 		useSameName (Private)
+; CHECK-NEXT: 	ClassMethods:
+; CHECK-NEXT: 		useSameName (Public) i:0 o:0 u:0
+; CHECK-NEXT: --> Basic9 (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	SuperClass: NSObject
+; CHECK-NEXT: 	InstanceMethods:
+; CHECK-NEXT: 		aProperty (Public) i:10.8 o:0 u:0
+; CHECK-NEXT: 		setAProperty: (Public) i:10.8 o:0 u:0
+; CHECK-NEXT: 	ClassMethods:
+; CHECK-NEXT: --> ExternalManagedObject (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	SuperClass: NSManagedObject
+; CHECK-NEXT: 	InstanceMethods:
+; CHECK-NEXT: 		foo (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	ClassMethods:
+; CHECK-NEXT: --> HiddenClass (Private)
+; CHECK-NEXT: 	SuperClass: NSObject
+; CHECK-NEXT: 	InstanceMethods:
+; CHECK-NEXT: 	ClassMethods:
+; CHECK-NEXT: --> NSManagedObject (Private)
+; CHECK-NEXT: 	SuperClass:
+; CHECK-NEXT: 	InstanceMethods:
+; CHECK-NEXT: 	ClassMethods:
+; CHECK-NEXT: --> NSObject (Private)
+; CHECK-NEXT: 	SuperClass:
+; CHECK-NEXT: 	InstanceMethods:
+; CHECK-NEXT: 	ClassMethods:
+; CHECK-NEXT: --> Simple (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	SuperClass: NSObject
+; CHECK-NEXT: 	InstanceMethods:
+; CHECK-NEXT: 	ClassMethods:
+; CHECK-NEXT: --> SimpleInternalAPI (Private)
+; CHECK-NEXT: 	SuperClass: NSObject
+; CHECK-NEXT: 	InstanceMethods:
+; CHECK-NEXT: 	ClassMethods:
+; CHECK-NEXT: --> SimpleInternalSPI (Private)
+; CHECK-NEXT: 	SuperClass: NSObject
+; CHECK-NEXT: 	InstanceMethods:
+; CHECK-NEXT: 	ClassMethods:
+; CHECK-NEXT: --> SubClass (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	SuperClass: Base
+; CHECK-NEXT: 	InstanceMethods:
+; CHECK-NEXT: 	ClassMethods:
+; CHECK-NEXT: ObjC Categories:
+; CHECK-NEXT: --> Simple (Public) i:10.4 o:0 u:0
+; CHECK-NEXT: 	BaseClass: NSManagedObject
+; CHECK-NEXT: 	InstanceMethods:
+; CHECK-NEXT: 		supportsSimple (Private)
+; CHECK-NEXT: 	ClassMethods:
+; CHECK-NEXT: ObjC Protocols:
+; CHECK-NEXT: --> FooProtocol (Public) i:10.11 o:0 u:0
+; CHECK-NEXT: 	InstanceMethods:
+; CHECK-NEXT: 	ClassMethods:
+; CHECK-NEXT: --> _A (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	InstanceMethods:
+; CHECK-NEXT: 		aMethod (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	ClassMethods:

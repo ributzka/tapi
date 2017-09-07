@@ -1,0 +1,16 @@
+; RUN: rm -rf %t && mkdir -p %t
+; RUN: %tapi scan -isysroot %sysroot %inputs/System/Library/Frameworks/Simple.framework -gen -output-dir=%t | FileCheck -allow-empty %s
+; RUN: diff -a %p/../Outputs/Frameworks/Simple.framework/Simple.api %t/Versions/A/Simple.api
+; RUN: diff -a %p/../Outputs/Frameworks/Simple.framework/Simple.spi %t/Versions/A/Simple.spi
+
+; CHECK:      warning: dylib Simple exports symbol _extraGlobalAPI1 without a definition in a header file.
+; CHECK-NEXT: warning: dylib Simple exports symbol _extraGlobalAPI2 without a definition in a header file.
+; CHECK-NEXT: warning: dylib Simple exports symbol (ObjC Class) SimpleInternalAPI without a definition in a header file.
+; CHECK-NEXT: warning: dylib Simple exports symbol (ObjC Class) SimpleInternalSPI without a definition in a header file.
+; CHECK-NEXT: warning: dylib Simple exports symbol (ObjC Class EH) SimpleInternalAPI without a definition in a header file.
+; CHECK-NEXT: warning: dylib Simple exports symbol (ObjC Class EH) SimpleInternalSPI without a definition in a header file.
+; CHECK-NEXT: warning: dylib Simple exports Basic8::(ObjC Instance Method) useSameName without a definition in a header file.
+; CHECK-NEXT: warning: headers exports symbol _otherFrameworkAPI without an export in a dylib.
+; CHECK-NEXT: warning: headers exports symbol _otherFrameworkSPI without an export in a dylib.
+; CHECK-NOT: warning
+; CHECK-NOT: error

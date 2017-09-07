@@ -1,0 +1,11 @@
+; RUN: rm -rf %t && mkdir -p %t
+; RUN: %tapi sdkdb -print -output-dir=%t -isysroot %sysroot %inputs/Bundle 2>&1 | FileCheck %s
+
+; CHECK: Install Name: Bundle
+; CHECK: Symbols:
+; CHECK:   _test_bundle_interface (Private)
+; CHECK: ObjC Classes:
+; CHECK: TestBundle (Private)
+; CHECK:   SuperClass: NSObject
+; CHECK: InstanceMethods:
+; CHECK:   foo (Private)

@@ -1,0 +1,12 @@
+--- !tapi-tbd-v2
+archs:           [ i386, x86_64 ]
+platform:        macosx
+flags:           [ not_app_extension_safe ]
+install-name:    /System/Library/Frameworks/IVarTest.framework/Versions/A/IVarTest
+objc-constraint: none
+exports:         
+  - archs:           [ x86_64 ]
+    objc-ivars:      [ _IVarTest._ivar1, _IVarTest._ivar2, _IVarTest._ivar3, _IVarTest._weakString ]
+  - archs:           [ i386, x86_64 ]
+    objc-classes:    [ _IVarTest ]
+...

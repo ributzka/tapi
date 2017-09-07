@@ -1,0 +1,91 @@
+#!/bin/sh
+# Build TAPI the "Apple way".
+
+set -x
+
+# Parameters:
+HOSTS_LIST=`echo $RC_ARCHS | sed 's/[[:space:]]/;/g'`
+
+# The first parameter is a yes/no that indicates whether assertions should be
+# enabled in the LLVM libs/tools.
+LLVM_ASSERTIONS="$1"
+
+# The second parameter is a yes/no that indicates whether this is an optimized
+# build.
+LLVM_OPTIMIZED="$2"
+
+SDKROOT_PATH=`xcodebuild -version -sdk $SDKROOT Path`
+
+BUILDIT_DIR="utils/buildit"
+if [ "${SRCROOT/$BUILDIT_DIR}" != "${SRCROOT}" ] ; then
+  SRCROOT=`cd ${SRCROOT}/../../ && pwd`
+fi
+
+if [ "$LLVM_OPTIMIZED" = "yes" ]; then
+    BUILD_TYPE=RelWithDebInfo
+else
+    BUILD_TYPE=Debug
+fi
+
+CMAKE=`xcrun -find cmake`
+NINJA=`xcrun -find ninja`
+CC=`xcrun -find clang`
+CXX=`xcrun -find clang++`
+STRIP=`xcrun -find strip`
+PREFIX=$DSTROOT/$TOOLCHAIN_INSTALL_DIR/usr/
+echo "__clang_major__ __clang_minor__ __clang_patchlevel__" > $OBJROOT/clang_version.c
+CLANG_VERSION=`xcrun clang -E $OBJROOT/clang_version.c | tail -n1 | sed 's/[[:space:]]/./g'`
+
+CMAKE_OPTS="\
+  -C ${SRCROOT}/tools/clang/tools/tapi/cmake/caches/apple-tapi.cmake \
+  -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
+  -DCMAKE_INSTALL_PREFIX:STRING=$PREFIX \
+  -DCMAKE_MAKE_PROGRAM=$NINJA \
+  -DCMAKE_CXX_COMPILER=$CXX \
+  -DCMAKE_C_COMPILER=$CC \
+  -DLLVM_ENABLE_ASSERTIONS:BOOL=$LLVM_ASSERTIONS \
+  -DTAPI_FULL_VERSION=$RC_ProjectSourceVersion \
+  -DTAPI_REPOSITORY_STRING=$RC_ProjectNameAndSourceVersion \
+  -DPACKAGE_VERSION=$CLANG_VERSION \
+  -DCLANG_RESOURCE_DIR:STRING='../lib/clang/$CLANG_VERSION'"
+
+TARGETS="install-distribution"
+EXTRA_CMAKE_OPTS=""
+if [ "${RC_PLATFORM_NAME}" = "iPhoneOS" ]; then
+  TARGETS="install-distribution install-iOSSDK"
+  EXTRA_CMAKE_OPTS="-DTAPI_BUILD_LIBIOSSDK=ON"
+fi
+
+mkdir -p $OBJROOT/obj-tapi || exit 1
+cd $OBJROOT/obj-tapi || exit 1
+
+$CMAKE -G 'Ninja' $CMAKE_OPTS $EXTRA_CMAKE_OPTS "$SRCROOT" || exit 1
+
+$NINJA $TARGETS -v
+if ! test $? == 0 ; then
+    echo "error: LLVM 'ninja $TARGETS' failed!"
+    exit 1
+fi
+
+mkdir -p $PREFIX/local/bin || exit 1
+cp $SRCROOT/tools/clang/tools/tapi/utils/textify_sdk $PREFIX/local/bin || exit 1
+
+mv $PREFIX/include $PREFIX/local/ || exit 1
+
+# Clean out SYM_DIR in case -noclean was passed to buildit.
+cd $SYMROOT || exit 1
+rm -rf * || exit 1
+
+# Copy the binaries and dsyms to the SYMROOT
+find $OBJROOT/obj-tapi -name \*.dSYM -exec cp -r {} $SYMROOT/ \; || exit 1
+find $OBJROOT/obj-tapi -type f -perm +111 -exec cp -r {} $SYMROOT/ \; || exit 1
+
+# Strip the binaries in the DSTROOT
+if [ "$LLVM_OPTIMIZED" = "yes" ]; then
+  find $PREFIX -type f -perm +111 -exec $STRIP -Sxl {} \; || exit 1
+fi
+
+chgrp -h -R wheel $DSTROOT
+chgrp -R wheel $DSTROOT
+
+exit 0

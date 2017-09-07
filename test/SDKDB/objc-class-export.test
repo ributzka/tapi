@@ -1,0 +1,17 @@
+; RUN: %tapi sdkdb -print -output-dir=%T -isysroot %sysroot %inputs/Export 2>&1 | FileCheck %s
+; CHECK: 			Install Name: Export
+; CHECK-NEXT: Symbols:
+; CHECK-NEXT: 	_OBJC_CLASS_$_A (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	_OBJC_METACLASS_$_A (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	_public_sym1 (Public) i:0 o:0 u:0
+; CHECK-NEXT: ObjC Classes:
+; CHECK-NEXT: --> A (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	SuperClass:
+; CHECK-NEXT: 	InstanceMethods:
+; CHECK-NEXT: 		method (Public) i:0 o:0 u:0
+; CHECK-NEXT: 	ClassMethods:
+; CHECK-NEXT: --> B (Private)
+; CHECK-NEXT: 	SuperClass:
+; CHECK-NEXT: 	InstanceMethods:
+; CHECK-NEXT: 		method (Private)
+; CHECK-NEXT: 	ClassMethods:

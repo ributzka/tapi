@@ -1,0 +1,5 @@
+; RUN: %tapi sdkdb -print -output-dir=%T -isysroot %sysroot %inputs/SubFrameworks 2>&1 | FileCheck %s
+
+; CHECK: _framework
+; CHECK: _sub_framework1
+; CHECK: _sub_framework2

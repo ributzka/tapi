@@ -1,0 +1,17 @@
+--- !tapi-tbd-v2
+archs:           [ x86_64 ]
+platform:        macosx
+flags:           [ not_app_extension_safe, installapi ]
+install-name:    /System/Library/Frameworks/Simple.framework/Versions/A/Simple
+current-version: 47
+compatibility-version: 11
+objc-constraint: none
+exports:         
+  - archs:           [ x86_64 ]
+    symbols:         [ '_OBJC_EHTYPE_$_Base', '_OBJC_EHTYPE_$_SubClass', _otherFrameworkAPI, 
+                       _otherFrameworkSPI, _privateGlobalVariable, _publicGlobalVariable ]
+    objc-classes:    [ _A, _Base, _Basic1, _Basic2, _Basic3, _Basic4, _Basic5, _Basic6, 
+                       _Basic8, _Basic9, _ExternalManagedObject, _Simple, _SubClass ]
+    objc-ivars:      [ _Basic4.ivar1, _Basic4.ivar2, _Basic6.ivar1 ]
+    weak-def-symbols: [ _weakPrivateGlobalVariable, _weakPublicGlobalVariable ]
+...

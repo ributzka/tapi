@@ -1,0 +1,5 @@
+; RUN: %tapi stubify %inputs/usr/lib/libUnknownPlatform.dylib -o %t.tbd 2>&1 | FileCheck -allow-empty %s
+; RUN: diff -a %p/../Outputs/usr/lib/libUnknownPlatform.tbd %t.tbd
+
+; CHECK-NOT: error
+; CHECK-NOT: warning

@@ -1,0 +1,16 @@
+--- !tapi-tbd-v2
+archs:           [ x86_64 ]
+platform:        macosx
+flags:           [ not_app_extension_safe ]
+install-name:    /System/Library/Frameworks/CPP3.framework/Versions/A/CPP3
+objc-constraint: none
+exports:         
+  - archs:           [ x86_64 ]
+    symbols:         [ __ZN5test16Simple3runEv, __ZN5test26Simple3runEv, __ZN5test43Sub3runEv, 
+                       __ZN5test53Sub3runEv, __ZN5test63Sub3runEv, __ZN6test113Sub4run3Ev, 
+                       __ZTIN5test26SimpleE, __ZTIN5test43SubE, __ZTIN5test53SubE, 
+                       __ZTIN5test63SubE, __ZTSN5test26SimpleE, __ZTSN5test43SubE, 
+                       __ZTSN5test53SubE, __ZTSN5test63SubE, __ZTVN5test26SimpleE, 
+                       __ZTVN5test43SubE, __ZTVN5test53SubE, __ZTVN5test63SubE ]
+    weak-def-symbols: [ __ZN6test126SimpleIiE3fooEv, __ZTVN6test126SimpleIiEE ]
+...
